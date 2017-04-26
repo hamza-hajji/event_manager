@@ -11,10 +11,18 @@ def clean_zipcode zipcode
   zipcode.to_s.rjust(5, "0")[0..4]
 end
 
+def legislators_by_zipcode zipcode
+  legislators = Sunlight::Congress::Legislator.by_zipcode(zipcode)
+  legislator_names = legislators.collect do |legislator|
+    "#{legislator.first_name} #{legislator.last_name}"
+  end
+
+  legislator_names.join ", "
+end
+
 data.each do |row|
   name = row[:first_name]
   zipcode = clean_zipcode(row[:zipcode])
-  legislators = Sunlight::Congress::Legislator.by_zipcode(zipcode)
-
-  puts "#{name} #{zipcode} #{legislators}"
+  
+  puts "#{name} #{zipcode} #{legislators_by_zipcode(zipcode)}"
 end
