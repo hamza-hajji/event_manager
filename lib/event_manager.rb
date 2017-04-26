@@ -32,8 +32,9 @@ data.each do |row|
   name = row[:first_name]
   zipcode = clean_zipcode row[:zipcode]
   legislators = legislators_by_zipcode zipcode
-
+  
   form_letter = erb_template.result binding
-
+  
+  puts "saving #{name}'s letter as html..." 
   save_thank_yous id, form_letter
 end
